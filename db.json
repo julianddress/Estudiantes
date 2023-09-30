@@ -1,0 +1,14 @@
+{
+  "estudiante": [
+    {
+      "nombre": "Sara lucia",
+      "apellido": "Martinez",
+      "email": "sara453ortega@gmail.com"
+    },
+    {
+      "nombre": "Julian Andres",
+      "apellido": "Motta Serrano",
+      "email": "javi@gmail.com"
+    }
+  ]
+}
