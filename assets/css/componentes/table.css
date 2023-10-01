@@ -36,6 +36,10 @@
   .table__align--right {
     text-align: right;
   }
+
+  .table__column--a {
+    width: 10%;
+  }
   
   .table__column--p {
     width: 20%;
@@ -46,7 +50,7 @@
   }
   
   .table__column--g {
-    width: 50%;
+    width: 30%;
   }
   
   .table tr:last-of-type td {
@@ -57,6 +61,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    padding-left: 1.5rem;
   }
   
   .table__button-control li:first-of-type {
@@ -64,6 +69,6 @@
   }
   
   .td {
-    padding: 1rem;
+    padding: 1rem 1rem 1rem 0;
   }
   

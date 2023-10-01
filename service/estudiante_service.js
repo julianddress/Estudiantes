@@ -1,76 +1,39 @@
-//backticks
-const crearNuevaLinea = (nombre, apellido, email) => {
-    const linea = document.createElement("tr");
-    const contenido = `
-        <td class="td" data-td>
-            ${nombre}
-        </td>
-        <td>${apellido}</td>
-        <td>${email}</td>
-        <td>
-            <ul class="table__button-control">
-            <li>
-                <a
-                href="../screens/Editar_Estudiante.html"
-                class="simple-button simple-button--edit"
-                >
-                Editar
-                </a>
-            </li>
-            <li>
-                <button class="simple-button simple-button--delete" type="button">
-                Eliminar
-                </button>
-            </li>
-            </ul>
-        </td>
-        `;
-    linea.innerHTML = contenido
-    return linea
-}
-
-const table = document.querySelector("[data-table]")
-
-// CRUD   --> METODOS HTTP
-// CREATE   = POST
-// READ     = GET
-// UPDATE   = PUT / PATCH
-// DELETE   = DELETE
-
-const http = new XMLHttpRequest;
-http.open("GET", "http://localhost:3000/estudiante")
-http.send()
-
-
 // https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Promise#par%C3%A1metro. 
 
-const listaEstudiantes = () => {
-    const promise = new Promise( (resolve, reject) => {
-        http.onload = () => {
 
-            // LEEMOS LOS DATOS EN FORMATO JAVASCRIPT Y NO EN FORMA DE TEXTO
-            const response = JSON.parse(http.response)
-            console.log(response)
-            
-            if(http.status >= 400){
-                reject(response)
-            }else{
-                resolve(response)
-            }
-            // FUNCIONES ANIDADAS - CALLBACK HELL JS
-            // http.open("GET", "http://localhost:3000/estudiante/hoy")
-        
-            // PROMISES
-        }
-    })
-    return promise;
+// POR DEFECTO TOMA EL METODO GET
+const listaEstudiantes = () => 
+        fetch("http://localhost:3000/estudiante").then((respuesta) => respuesta.json());
+
+const registrarEstudiante = (nombre, apellido, email) => {
+
+    return fetch("http://localhost:3000/estudiante", {
+            method: "POST",
+            // ESTANDAR DEL TIPO DE ARCHIVO QUE EL SERVIDOR VA A RECIBIR
+            headers: {
+                "Content-Type": "application/json"
+            },
+            // OBJETO FORMATEADO A TEXT PARA HTTP
+            body: JSON.stringify({nombre, apellido, email})
+        })
 }
 
-// data toma el valor de nuestro response, asi que puede ser nombrado como queramos
-listaEstudiantes().then( (data) => {
-    console.log(data)
-    data.forEach( estudiante => {
-        const nuevaLinea = crearNuevaLinea(estudiante.nombre, estudiante.apellido, estudiante.email)
-        table.appendChild(nuevaLinea)
-    });
-})
+// NO NOS IMPORTA EL CONTENIDO
+const eliminarEstudiante = (id) => {
+    return fetch(`http://localhost:3000/estudiante/${id}`, {
+                method: "DELETE",
+            });
+};
+
+
+
+export const estudianteService = {
+
+    // listaEstudiantes: listaEstudiantes 
+    listaEstudiantes,
+    registrarEstudiante,
+    eliminarEstudiante,
+};
+
+
+// http://latentflip.com/loupe/?code=JC5vbignYnV0dG9uJywgJ2NsaWNrJywgZnVuY3Rpb24gb25DbGljaygpIHsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gdGltZXIoKSB7CiAgICAgICAgY29uc29sZS5sb2coJ1lvdSBjbGlja2VkIHRoZSBidXR0b24hJyk7ICAgIAogICAgfSwgMjAwMCk7Cn0pOwoKY29uc29sZS5sb2coIkhpISIpOwoKc2V0VGltZW91dChmdW5jdGlvbiB0aW1lb3V0KCkgewogICAgY29uc29sZS5sb2coIkNsaWNrIHRoZSBidXR0b24hIik7Cn0sIDUwMDApOwoKY29uc29sZS5sb2coIldlbGNvbWUgdG8gbG91cGUuIik7!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4%3D.
