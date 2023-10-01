@@ -20,7 +20,7 @@ const crearNuevaLinea = (nombre, apellido, email, id) => {
             <ul class="table__button-control">
             <li>
                 <a
-                href="../screens/Editar_Estudiante.html"
+                href="../screens/Editar_Estudiante.html?id=${id}"
                 class="simple-button simple-button--edit"
                 >
                 Editar

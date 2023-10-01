@@ -25,6 +25,18 @@ const eliminarEstudiante = (id) => {
             });
 };
 
+const detalleEstudiante = (id) => fetch(`http://localhost:3000/estudiante/${id}`).then( respuesta => respuesta.json())
+
+const updateEstudiante = (nombre, apellido, email, id) => {
+    
+    return fetch(`http://localhost:3000/estudiante/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({nombre, apellido, email})
+    }).then( respuesta => respuesta).catch( (err) => consolelog(err))
+}
 
 
 export const estudianteService = {
@@ -33,6 +45,8 @@ export const estudianteService = {
     listaEstudiantes,
     registrarEstudiante,
     eliminarEstudiante,
+    detalleEstudiante,
+    updateEstudiante,
 };
 
 
