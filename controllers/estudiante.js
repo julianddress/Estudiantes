@@ -5,6 +5,7 @@ const idAleatorio = ()=>{
         cont++;
         return cont;
 }
+
 //backticks
 const crearNuevaLinea = (nombre, apellido, email, id) => {
 
@@ -37,12 +38,18 @@ const crearNuevaLinea = (nombre, apellido, email, id) => {
     linea.innerHTML = contenido
     
     const btn  = linea.querySelector("button")
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", async (e) => {
         const id = btn.id;
         
-        estudianteService.eliminarEstudiante(id).then( (respuesta) => {
-            console.log(respuesta);
-        }).catch(error => alert("Ocurrió un error"))
+        try {
+            const respuesta = await estudianteService.eliminarEstudiante(id);
+            console.log(respuesta)
+            if(id === null){
+                throw new Error();
+            }
+        } catch (error) {
+            window.location.href = "/screens/error.html"
+        }
     })
     return linea
 };
@@ -57,4 +64,4 @@ estudianteService.listaEstudiantes().then( (data) => {
         const nuevaLinea = crearNuevaLinea(nombre, apellido, email, id)
         table.appendChild(nuevaLinea)
     });
-}).catch((error) => alert("Ocurrió un problema"));
+}).catch((error) => alert("Ocurrió un problema al traer la lista de estudiantes"));

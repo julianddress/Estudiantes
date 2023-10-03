@@ -3,7 +3,7 @@ import { estudianteService } from "../service/estudiante_service.js";
 const form = document.querySelector("[data-form]");
 
 // TRAEMOS LOS DATOS DE NUESTRO SERVER = JSON
-const obtenerEstudiante = () => {
+const obtenerEstudiante = async () => {
     const url = new URL(window.location);
     const id = url.searchParams.get("id")
 
@@ -15,11 +15,21 @@ const obtenerEstudiante = () => {
     const inputApellido = document.querySelector("[data-apellido]");
     const inputEmail = document.querySelector("[data-email]");
 
-    estudianteService.detalleEstudiante(id).then( estudent => {
-        inputNombre.value = estudent.nombre;
-        inputApellido.value = estudent.apellido;
-        inputEmail.value = estudent.email;
-    })
+    try {
+        const estudent = await estudianteService.detalleEstudiante(id)
+
+        if(estudent.nombre && estudent.apellido && estudent.email){
+            inputNombre.value = estudent.nombre;
+            inputApellido.value = estudent.apellido;
+            inputEmail.value = estudent.email;
+        }else{
+            throw new Error();
+        }
+        
+    } catch (error) {
+        window.location.href = "/screens/error.html"
+    }
+    
 }
 
 obtenerEstudiante();
